@@ -58,7 +58,7 @@ If you find Relation Networks for Object Detection useful in your research, plea
 |---------------------------------|---------------|---------------|------|---------|---------|-------|-------|-------|---------------------------------|---------------------------------|
 | <sub>2FC + nms(0.5)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 36.6 | 59.3 | 39.3 | 20.3 | 40.5 | 49.4 | 0.196s | 0.037s |
 | <sub>2FC + softnms(0.6)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 36.8 | 57.8 | 40.7 | 20.4 | 40.8 | 49.7 | 0.323s | 0.167s |
-| <sub>2FC + Relation Module + Learn NMS(e2e)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 38.8 | 60.1 | 43.2 | 22.3 | 42.3 | 52.6 | 0.232s | 0.022s |
+| <sub>2FC + Relation Module + Learn NMS(e2e)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 38.6 | 59.9 | 43.0 | 22.1 | 42.3 | 52.8 | 0.232s | 0.022s |
 
 
 *Running time is counted on a single Maxwell Titan X GPU (mini-batch size is 1 in inference).*
