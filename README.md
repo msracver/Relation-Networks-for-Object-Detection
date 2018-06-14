@@ -18,7 +18,7 @@ This is an official implementation for [Relation Networks for Object Detection](
 
 ## License
 
-© Microsoft, 2018. Licensed under an MIT license.
+© Microsoft, 2017. Licensed under an MIT license.
 
 ## Citing Relation Networks for Object Detection
 
