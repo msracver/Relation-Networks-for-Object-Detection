@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -14,8 +15,8 @@
 
 import numpy as np
 
-from cpu_nms import cpu_nms
-from gpu_nms import gpu_nms
+from .cpu_nms import cpu_nms
+from .gpu_nms import gpu_nms
 
 
 def py_nms_wrapper(thresh):

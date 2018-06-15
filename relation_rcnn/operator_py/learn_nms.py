@@ -11,6 +11,7 @@ and outputs final nms score for each roi
 this operator is only used in testing stage to speed up nms,
 and could be used also in training after gradient calculation for inputs and params is implemented.
 """
+from __future__ import print_function
 
 import mxnet as mx
 from mxnet import nd

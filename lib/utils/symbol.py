@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft

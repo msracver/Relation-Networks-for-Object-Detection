@@ -65,7 +65,7 @@ class PrefetchingIterV2(mx.io.DataIter):
                 if not self.started:
                     break
                 try:
-                    self.next_batch[i][0] = self.iters[0].next()
+                    self.next_batch[i][0] = next(self.iters[0])
                 except StopIteration:
                     self.next_batch[i][0] = None
                 self.data_taken[i].clear()

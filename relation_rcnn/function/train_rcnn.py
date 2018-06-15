@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -104,7 +105,7 @@ def train_rcnn(cfg, dataset, image_set, root_path, dataset_path,
 
     # load and initialize params
     if resume:
-        print('continue training from ', begin_epoch)
+        print(('continue training from ', begin_epoch))
         arg_params, aux_params = load_param(prefix, begin_epoch, convert=True)
     else:
         arg_params, aux_params = load_param(pretrained, epoch, convert=True)
@@ -160,7 +161,7 @@ def train_rcnn(cfg, dataset, image_set, root_path, dataset_path,
     lr_epoch_diff = [epoch - begin_epoch for epoch in lr_epoch if epoch > begin_epoch]
     lr = base_lr * (lr_factor ** (len(lr_epoch) - len(lr_epoch_diff)))
     lr_iters = [int(epoch * len(roidb) / batch_size) for epoch in lr_epoch_diff]
-    print('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters)
+    print(('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters))
     lr_scheduler = WarmupMultiFactorScheduler(lr_iters, lr_factor, cfg.TRAIN.warmup, cfg.TRAIN.warmup_lr,
                                               cfg.TRAIN.warmup_step)
     # optimizer

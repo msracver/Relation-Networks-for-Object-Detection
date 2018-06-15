@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -13,7 +14,7 @@ from operator_py.proposal import *
 from operator_py.proposal_target import *
 from operator_py.box_annotator_ohem import *
 from operator_py.nms_multi_target import *
-from resnet_v1_101_rcnn_learn_nms_base import resnet_v1_101_rcnn_learn_nms_base
+from .resnet_v1_101_rcnn_learn_nms_base import resnet_v1_101_rcnn_learn_nms_base
 
 
 class resnet_v1_101_rcnn_learn_nms_1024_attention_1024_pairwise_position_multi_head_16(resnet_v1_101_rcnn_learn_nms_base):

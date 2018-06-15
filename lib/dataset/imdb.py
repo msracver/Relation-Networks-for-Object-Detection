@@ -22,6 +22,7 @@ basic format [image_index]
 ['image', 'height', 'width', 'flipped',
 'boxes', 'gt_classes', 'gt_overlaps', 'max_classes', 'max_overlaps', 'bbox_targets']
 """
+from __future__ import print_function
 
 import os
 import cPickle
@@ -105,7 +106,7 @@ class IMDB(object):
             rpn_file = os.path.join(self.rpn_path, 'rpn_data', self.name + '_full_rpn.pkl')
         else:
             rpn_file = os.path.join(self.rpn_path, 'rpn_data', self.name + '_rpn.pkl')
-        print 'loading {}'.format(rpn_file)
+        print('loading {}'.format(rpn_file))
         assert os.path.exists(rpn_file), 'rpn data not found at {}'.format(rpn_file)
         with open(rpn_file, 'rb') as f:
             box_list = cPickle.load(f)
@@ -130,7 +131,7 @@ class IMDB(object):
         :return: roidb of rpn
         """
         if append_gt:
-            print 'appending ground truth annotations'
+            print('appending ground truth annotations')
             rpn_roidb = self.load_rpn_roidb(gt_roidb, top_roi)
             roidb = IMDB.merge_roidbs(rpn_roidb, gt_roidb)
         else:
@@ -201,7 +202,7 @@ class IMDB(object):
         :param segdb: [image_index]['seg_cls_path', 'flipped']
         :return: segdb: [image_index]['seg_cls_path', 'flipped']
         """
-        print 'append flipped images to segdb'
+        print('append flipped images to segdb')
         assert self.num_images == len(segdb)
         pool = Pool(processes=1)
         pool_result = []
@@ -223,7 +224,7 @@ class IMDB(object):
         :param roidb: [image_index]['boxes', 'gt_classes', 'gt_overlaps', 'flipped']
         :return: roidb: [image_index]['boxes', 'gt_classes', 'gt_overlaps', 'flipped']
         """
-        print 'append flipped images to roidb'
+        print('append flipped images to roidb')
         assert self.num_images == len(roidb)
         for i in range(self.num_images):
             roi_rec = roidb[i]
@@ -304,10 +305,10 @@ class IMDB(object):
         total_counts = float(sum(area_counts))
         for area_name, area_count in zip(area_names[1:], area_counts):
             log_info = 'percentage of {} {}'.format(area_name, area_count / total_counts)
-            print log_info
+            print(log_info)
             all_log_info += log_info
         log_info = 'average number of proposal {}'.format(total_counts / self.num_images)
-        print log_info
+        print(log_info)
         all_log_info += log_info
         for area_name, area_range in zip(area_names, area_ranges):
             gt_overlaps = np.zeros(0)
@@ -369,11 +370,11 @@ class IMDB(object):
 
             # print results
             log_info = 'average recall for {}: {:.3f}'.format(area_name, ar)
-            print log_info
+            print(log_info)
             all_log_info += log_info
             for threshold, recall in zip(thresholds, recalls):
                 log_info = 'recall @{:.2f}: {:.3f}'.format(threshold, recall)
-                print log_info
+                print(log_info)
                 all_log_info += log_info
 
         return all_log_info

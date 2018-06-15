@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -1061,7 +1062,7 @@ class resnet_v1_101_rcnn_fpn_attention_1024_pairwise_position_multi_head_16(Symb
             bbox_pred = mx.symbol.FullyConnected(name='bbox_pred', data=roi_pool_relu2, num_hidden=num_reg_classes * 4)
 
             if cfg.TRAIN.ENABLE_OHEM:
-                print "Open OHEM"
+                print("Open OHEM")
                 labels_ohem, bbox_weights_ohem = mx.sym.Custom(op_type='BoxAnnotatorOHEM', num_classes=num_classes,
                                                                num_reg_classes=num_reg_classes,
                                                                roi_per_img=cfg.TRAIN.BATCH_ROIS_OHEM,
@@ -1075,7 +1076,7 @@ class resnet_v1_101_rcnn_fpn_attention_1024_pairwise_position_multi_head_16(Symb
                                             grad_scale=1.0 / cfg.TRAIN.BATCH_ROIS_OHEM)
                 rcnn_label = labels_ohem
             else:
-                print "Close OHEM"
+                print("Close OHEM")
                 cls_prob = mx.sym.SoftmaxOutput(name='cls_prob', data=cls_score, label=label, normalization='valid',
                                                 use_ignore=True, ignore_label=-1)
                 bbox_loss_ = bbox_weight * mx.sym.smooth_l1(name='bbox_loss_', scalar=1.0,

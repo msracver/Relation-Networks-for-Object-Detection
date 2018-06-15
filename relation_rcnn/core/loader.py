@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -18,8 +19,13 @@ from mxnet.executor_manager import _split_input_slice
 from config.config import config
 from utils.image import tensor_vstack
 from rpn.rpn import get_rpn_testbatch, get_rpn_batch, assign_anchor
-from rcnn import get_rcnn_testbatch, get_rcnn_batch
+from .rcnn import get_rcnn_testbatch, get_rcnn_batch
 import threading
+
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
 
 
 class TestLoader(mx.io.DataIter):
@@ -603,5 +609,3 @@ class AnchorLoader(mx.io.DataIter):
                               self.feat_stride, self.anchor_scales,
                               self.anchor_ratios, self.allowed_border)
         return {'data': data, 'label': label}
-
-

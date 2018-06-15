@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -18,11 +20,17 @@ import time
 import mxnet as mx
 import numpy as np
 
-from module import MutableModule
+from .module import MutableModule
 from utils import image
 from bbox.bbox_transform import bbox_pred, clip_boxes
 from nms.nms import py_nms_wrapper, py_softnms_wrapper, cpu_nms_wrapper, gpu_nms_wrapper
 from utils.PrefetchingIter import PrefetchingIterV2 as PrefetchingIter
+
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
+
 
 class Predictor(object):
     def __init__(self, symbol, data_names, label_names,
@@ -101,8 +109,8 @@ def generate_proposals(predictor, test_data, imdb, cfg, vis=False, thresh=0.):
             if vis:
                 vis_all_detection(data_dict['data'].asnumpy(), [dets], ['obj'], scale, cfg)
 
-            print 'generating %d/%d' % (idx + 1, imdb.num_images), 'proposal %d' % (dets.shape[0]), \
-                'data %.4fs net %.4fs' % (t1, t2 / test_data.batch_size)
+            print('generating %d/%d' % (idx + 1, imdb.num_images), 'proposal %d' % (dets.shape[0]), \
+                'data %.4fs net %.4fs' % (t1, t2 / test_data.batch_size))
             idx += 1
 
 
@@ -122,7 +130,7 @@ def generate_proposals(predictor, test_data, imdb, cfg, vis=False, thresh=0.):
         with open(full_rpn_file, 'wb') as f:
             cPickle.dump(original_boxes, f, cPickle.HIGHEST_PROTOCOL)
 
-    print 'wrote rpn proposals to {}'.format(rpn_file)
+    print('wrote rpn proposals to {}'.format(rpn_file))
     return imdb_boxes
 
 
@@ -290,7 +298,7 @@ def pred_eval(predictor, test_data, imdb, cfg, vis=False, thresh=1e-3, logger=No
             valid_count = 500 if inference_count > 500 else inference_count
             print("--->> running-average inference time per batch: {}".format(float(sum(all_inference_time[-valid_count:]))/valid_count))
             print("--->> running-average post processing time per batch: {}".format(float(sum(post_processing_time[-valid_count:]))/valid_count))
-        print 'testing {}/{} data {:.4f}s net {:.4f}s post {:.4f}s'.format(idx, imdb.num_images, t1, t2, t3)
+        print('testing {}/{} data {:.4f}s net {:.4f}s post {:.4f}s'.format(idx, imdb.num_images, t1, t2, t3))
         if logger:
             logger.info('testing {}/{} data {:.4f}s net {:.4f}s post {:.4f}s'.format(idx, imdb.num_images, t1, t2, t3))
 
@@ -339,4 +347,3 @@ def vis_all_detection(im_array, detections, class_names, scale, cfg, threshold=1
                            '{:s} {:.3f}'.format(name, score),
                            bbox=dict(facecolor=color, alpha=0.5), fontsize=12, color='white')
     plt.show()
-

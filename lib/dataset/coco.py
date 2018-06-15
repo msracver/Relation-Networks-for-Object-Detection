@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -18,13 +20,18 @@ import os
 import json
 import numpy as np
 
-from imdb import IMDB
+from .imdb import IMDB
 
 # coco api
 from .pycocotools.coco import COCO
 from .pycocotools.cocoeval import COCOeval
 from bbox.bbox_transform import clip_boxes
 import multiprocessing as mp
+
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
 
 
 def coco_results_one_category_kernel(data_pack):
@@ -36,7 +43,7 @@ def coco_results_one_category_kernel(data_pack):
     if ann_type == 'bbox':
         masks = []
     else:
-        print 'unimplemented ann_type: ' + ann_type
+        print('unimplemented ann_type: ' + ann_type)
     cat_results = []
     for im_ind, im_info in enumerate(all_im_info):
         index = im_info['index']
@@ -82,7 +89,7 @@ class coco(IMDB):
         # load image file names
         self.image_set_index = self._load_image_set_index()
         self.num_images = len(self.image_set_index)
-        print 'num_images', self.num_images
+        print('num_images', self.num_images)
         self.mask_size = mask_size
         self.binary_thresh = binary_thresh
 
@@ -115,13 +122,13 @@ class coco(IMDB):
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
                 roidb = cPickle.load(fid)
-            print '{} gt roidb loaded from {}'.format(self.name, cache_file)
+            print('{} gt roidb loaded from {}'.format(self.name, cache_file))
             return roidb
 
         gt_roidb = [self._load_coco_annotation(index) for index in self.image_set_index]
         with open(cache_file, 'wb') as fid:
             cPickle.dump(gt_roidb, fid, cPickle.HIGHEST_PROTOCOL)
-        print 'wrote gt roidb to {}'.format(cache_file)
+        print('wrote gt roidb to {}'.format(cache_file))
 
         return gt_roidb
 
@@ -215,7 +222,7 @@ class coco(IMDB):
                           'boxes': all_boxes[cls_ind]}
                          for cls_ind, cls in enumerate(self.classes) if not cls == '__background__']
         else:
-            print 'unimplemented ann_type: '+ann_type
+            print('unimplemented ann_type: '+ann_type)
         # results = coco_results_one_category_kernel(data_pack[1])
         # print results[0]
         pool = mp.Pool(mp.cpu_count())
@@ -223,7 +230,7 @@ class coco(IMDB):
         pool.close()
         pool.join()
         results = sum(results, [])
-        print 'Writing results json to %s' % res_file
+        print('Writing results json to %s' % res_file)
         with open(res_file, 'w') as f:
             json.dump(results, f, sort_keys=True, indent=4)
 
@@ -238,7 +245,7 @@ class coco(IMDB):
         eval_file = os.path.join(res_folder, 'detections_%s_results.pkl' % self.image_set)
         with open(eval_file, 'w') as f:
             cPickle.dump(coco_eval, f, cPickle.HIGHEST_PROTOCOL)
-        print 'coco eval results saved to %s' % eval_file
+        print('coco eval results saved to %s' % eval_file)
         info_str +=  'coco eval results saved to %s\n' % eval_file
         return info_str
 
@@ -263,9 +270,9 @@ class coco(IMDB):
         precision = \
             coco_eval.eval['precision'][ind_lo:(ind_hi + 1), :, :, 0, 2]
         ap_default = np.mean(precision[precision > -1])
-        print '~~~~ Mean and per-category AP @ IoU=%.2f,%.2f] ~~~~' % (IoU_lo_thresh, IoU_hi_thresh)
+        print('~~~~ Mean and per-category AP @ IoU=%.2f,%.2f] ~~~~' % (IoU_lo_thresh, IoU_hi_thresh))
         info_str += '~~~~ Mean and per-category AP @ IoU=%.2f,%.2f] ~~~~\n' % (IoU_lo_thresh, IoU_hi_thresh)
-        print '%-15s %5.1f' % ('all', 100 * ap_default)
+        print('%-15s %5.1f' % ('all', 100 * ap_default))
         info_str += '%-15s %5.1f\n' % ('all', 100 * ap_default)
         for cls_ind, cls in enumerate(self.classes):
             if cls == '__background__':
@@ -273,10 +280,10 @@ class coco(IMDB):
             # minus 1 because of __background__
             precision = coco_eval.eval['precision'][ind_lo:(ind_hi + 1), :, cls_ind - 1, 0, 2]
             ap = np.mean(precision[precision > -1])
-            print '%-15s %5.1f' % (cls, 100 * ap)
+            print('%-15s %5.1f' % (cls, 100 * ap))
             info_str +=  '%-15s %5.1f\n' % (cls, 100 * ap)
 
-        print '~~~~ Summary metrics ~~~~'
+        print('~~~~ Summary metrics ~~~~')
         coco_eval.summarize()
 
         return info_str

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -60,6 +61,6 @@ def filter_roidb(roidb, config):
     num = len(roidb)
     filtered_roidb = [entry for entry in roidb if is_valid(entry)]
     num_after = len(filtered_roidb)
-    print 'filtered %d roidb entries: %d -> %d' % (num - num_after, num, num_after)
+    print('filtered %d roidb entries: %d -> %d' % (num - num_after, num, num_after))
 
     return filtered_roidb

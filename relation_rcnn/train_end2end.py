@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -11,7 +13,7 @@
 # https://github.com/ijkguo/mx-rcnn/
 # --------------------------------------------------------
 
-import _init_paths
+from . import _init_paths
 
 import time
 import argparse
@@ -19,7 +21,7 @@ import logging
 import pprint
 import os
 import sys
-from config.config import config, update_config
+from .config.config import config, update_config
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train Faster-RCNN network')
@@ -43,10 +45,10 @@ import shutil
 import numpy as np
 import mxnet as mx
 
-from symbols import *
-from core import callback, metric
-from core.loader import AnchorLoader
-from core.module import MutableModule
+from .symbols import *
+from .core import callback, metric
+from .core.loader import AnchorLoader
+from .core.module import MutableModule
 from utils.create_logger import create_logger
 from utils.load_data import load_gt_roidb, merge_roidb, filter_roidb
 from utils.load_model import load_param
@@ -91,7 +93,7 @@ def train_net(args, ctx, pretrained, epoch, prefix, begin_epoch, end_epoch, lr, 
     max_data_shape = [('data', (config.TRAIN.BATCH_IMAGES, 3, max([v[0] for v in config.SCALES]), max([v[1] for v in config.SCALES])))]
     max_data_shape, max_label_shape = train_data.infer_shape(max_data_shape)
     max_data_shape.append(('gt_boxes', (config.TRAIN.BATCH_IMAGES, 100, 5)))
-    print 'providing maximum shape', max_data_shape, max_label_shape
+    print('providing maximum shape', max_data_shape, max_label_shape)
 
     data_shape_dict = dict(train_data.provide_data_single + train_data.provide_label_single)
     pprint.pprint(data_shape_dict)
@@ -103,7 +105,7 @@ def train_net(args, ctx, pretrained, epoch, prefix, begin_epoch, end_epoch, lr, 
 
     # load and initialize params
     if config.TRAIN.RESUME:
-        print('continue training from ', begin_epoch)
+        print(('continue training from ', begin_epoch))
         arg_params, aux_params = load_param(prefix, begin_epoch, convert=True)
     else:
         arg_params, aux_params = load_param(pretrained, epoch, convert=True)
@@ -157,7 +159,7 @@ def train_net(args, ctx, pretrained, epoch, prefix, begin_epoch, end_epoch, lr, 
     lr_epoch_diff = [epoch - begin_epoch for epoch in lr_epoch if epoch > begin_epoch]
     lr = base_lr * (lr_factor ** (len(lr_epoch) - len(lr_epoch_diff)))
     lr_iters = [int(epoch * len(roidb) / batch_size) for epoch in lr_epoch_diff]
-    print('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters)
+    print(('lr', lr, 'lr_epoch_diff', lr_epoch_diff, 'lr_iters', lr_iters))
     lr_scheduler = WarmupMultiFactorScheduler(lr_iters, lr_factor, config.TRAIN.warmup, config.TRAIN.warmup_lr, config.TRAIN.warmup_step)
     # optimizer
     optimizer_params = {'momentum': config.TRAIN.momentum,
@@ -178,7 +180,7 @@ def train_net(args, ctx, pretrained, epoch, prefix, begin_epoch, end_epoch, lr, 
 
 
 def main():
-    print('Called with argument:', args)
+    print(('Called with argument:', args))
     ctx = [mx.gpu(int(i)) for i in config.gpus.split(',')]
     train_net(args, ctx, config.network.pretrained, config.network.pretrained_epoch, config.TRAIN.model_prefix,
               config.TRAIN.begin_epoch, config.TRAIN.end_epoch, config.TRAIN.lr, config.TRAIN.lr_step)

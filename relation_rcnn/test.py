@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -11,13 +13,13 @@
 # https://github.com/ijkguo/mx-rcnn/
 # --------------------------------------------------------
 
-import _init_paths
+from . import _init_paths
 import argparse
 import os
 import sys
 import time
 import logging
-from config.config import config, update_config
+from .config.config import config, update_config
 
 
 def parse_args():
@@ -60,13 +62,13 @@ sys.path.insert(0, os.path.join(curr_path, '../external/mxnet', config.MXNET_VER
 
 import mxnet as mx
 import numpy as np
-from function.test_rcnn import test_rcnn
+from .function.test_rcnn import test_rcnn
 from utils.create_logger import create_logger
 
 
 def main():
     ctx = [mx.gpu(int(i)) for i in config.gpus.split(',')]
-    print args
+    print(args)
     np.random.seed(0)
     mx.random.seed(0)
     logger, final_output_path = create_logger(config.output_path, args.cfg, config.dataset.test_image_set)

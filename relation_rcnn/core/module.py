@@ -15,6 +15,7 @@
 varying with training iterations. If shapes vary, executors will rebind,
 using shared arrays from the initial module binded with maximum shape.
 """
+from __future__ import print_function
 
 import time
 import logging
@@ -30,6 +31,11 @@ from mxnet import metric
 from .DataParallelExecutorGroup import DataParallelExecutorGroup
 from mxnet import ndarray as nd
 from mxnet import optimizer as opt
+
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
 
 
 class Module(BaseModule):
@@ -764,10 +770,10 @@ class MutableModule(BaseModule):
                     not_fixed_param_names.append(name)
 
         for name in fixed_param_names:
-            print name, 'is fixed'
+            print(name, 'is fixed')
             logging.info('%s is fixed.' % name)
         for name in not_fixed_param_names:
-            print name, 'is not fixed'
+            print(name, 'is not fixed')
             logging.info('%s is not fixed.' % name)
 
         self._fixed_param_names = fixed_param_names

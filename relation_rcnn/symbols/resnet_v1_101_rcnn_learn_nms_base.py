@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -11,7 +13,7 @@ from utils.symbol import Symbol
 from operator_py.proposal import *
 from operator_py.proposal_target import *
 from operator_py.box_annotator_ohem import *
-from resnet_v1_101_rcnn_base import resnet_v1_101_rcnn_base
+from .resnet_v1_101_rcnn_base import resnet_v1_101_rcnn_base
 
 
 class resnet_v1_101_rcnn_learn_nms_base(resnet_v1_101_rcnn_base):
@@ -255,7 +257,7 @@ class resnet_v1_101_rcnn_learn_nms_base(resnet_v1_101_rcnn_base):
         Returns:
             position_matrix: [num_fg_classes, num_boxes, num_boxes, 4]
         """
-        print 'base extract_position_matrix'
+        print('base extract_position_matrix')
         bbox = mx.sym.transpose(bbox, axes=(1, 0, 2))
         xmin, ymin, xmax, ymax = mx.sym.split(data=bbox,
                                               num_outputs=4, axis=2)

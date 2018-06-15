@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # --------------------------------------------------------
 # Relation Networks for Object Detection
 # Copyright (c) 2017 Microsoft
@@ -12,7 +13,7 @@
 # --------------------------------------------------------
 
 import numpy as np
-from bbox import bbox_overlaps_cython
+from .bbox import bbox_overlaps_cython
 
 
 def bbox_overlaps(boxes, query_boxes):
