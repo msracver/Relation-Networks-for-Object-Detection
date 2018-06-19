@@ -81,7 +81,6 @@ target/
 *.json
 .vscode/
 
-lib/dataset/pycocotools/*.c
 lib/dataset/pycocotools/*.cpp
 lib/nms/*.c
 lib/nms/*.cpp
