@@ -38,7 +38,7 @@ If you find Relation Networks for Object Detection useful in your research, plea
 
 |                                 | <sub>training data</sub> | <sub>testing data</sub>  | <sub>mAP</sub>  | <sub>mAP@0.5</sub> | <sub>mAP@0.75</sub>| <sub>mAP@S</sub> | <sub>mAP@M</sub> | <sub>mAP@L</sub> | <sub>Inference Time</sub> | <sub>Post Processing Time</sub> |
 |---------------------------------|---------------|---------------|------|---------|---------|-------|-------|-------|---------------------------------|---------------------------------|
-| <sub>2FC + nms(0.5)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 32.3 | 52.8 | 34.1 | 11.1 | 35.9 | 51.8 | 0.168s | 0.025s |
+| <sub>2FC + nms(0.5)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 31.8 | 53.9 | 32.2 | 10.5 | 35.2 | 51.5 | 0.168s | 0.025s |
 | <sub>2FC + softnms(0.6)<br /> ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 32.3 | 52.8 | 34.1 | 11.1 | 35.9 | 51.8 | 0.200s | 0.060s |
 | <sub>2FC + Relation Module + softnms<br />ResNet-101</sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 34.7 | 55.3 | 37.2 | 13.7 | 38.8 | 53.6 | 0.211s | 0.059s |
 | <sub>2FC + Learn NMS </br>ResNet-101 </sub> | <sub>coco trainval35k</sub> | <sub>coco minival</sub> | 32.6 | 51.8 |  35.0  | 11.8 | 36.6 | 52.1 | 0.162s | 0.020s |
